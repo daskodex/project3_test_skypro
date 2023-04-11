@@ -15,6 +15,30 @@ def main_view(request):
     })
 
 
+"""
+В целом мы получили рабочую вьюшку, и это отлично. Есть небольшая особенность
+работы  шаблонов в Джанго. Во время запуска проекта Джанго "проходит" по всем 
+папками templates в нашем проекте и собирает список файлов в них. Допустим у 
+нас есть 2 папки:
+
+/template/index.html
+/app1/template/index.html  
+
+В этом случае мы можем получить разные шаблоны для рендеренга, в зависимости
+от приоритетности обхода (грубо говоря мы это не контролируем). 
+
+Как решить поблему? Очень просто. Добавить под папку в директории templates:
+
+/template/core/index.html
+/app1/template/app1/index.html  
+
+Тогда в нашей views ы напишем:
+
+return render(request, 'core/index.html', {
+
+"""
+
+
 def jobs_views(request, specialty_code=None):
     if specialty_code:
         try:
@@ -63,5 +87,3 @@ def custom_handler404(request, exception):
 
 def custom_handler500(request):
     return HttpResponseServerError('<br/><h1>Ошибка 500</h1><h2>Ошибка запроса. Отказано в обработке</h2>')
-
-
